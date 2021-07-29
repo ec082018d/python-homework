@@ -112,6 +112,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.env.example
+.env.local
+.env.staging
 
 # Spyder project settings
 .spyderproject
