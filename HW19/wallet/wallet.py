@@ -10,7 +10,7 @@ import os
 #https://ofek.dev/bit/guide/keys.html
 
 # Load and set environment variables
-load_dotenv('/Users/econ77/Workspaces/Blockchain-Tools/wallet/.env')
+load_dotenv('.env')
 mnemonic=os.getenv("MNEMONIC")
 #print(mnemonic)
 
