@@ -17,12 +17,10 @@ mnemonic=os.getenv("MNEMONIC")
 # Import constants.py and necessary functions from bit and web3
 from bit import Key, PrivateKey, PrivateKeyTestnet
 from bit.network import NetworkAPI
-from bit import *
-from web3 import Web3, middleware
+
 from web3 import Web3, middleware, Account
 from web3.gas_strategies.time_based import medium_gas_price_strategy
 from web3.middleware import geth_poa_middleware
-from eth_account import Account
 
 
 
@@ -68,26 +66,26 @@ accBTCTEST = priv_key_to_account(BTCTEST, btctest_priv_key)
 ## Create a function called `create_tx` that creates an unsigned transaction appropriate metadata.
 def create_tx(coin, account, to, amount):
    if coin == ETH:
-       gas_estimate = w3.eth.estimate_gas(
+       gas_estimate = Web3.eth.estimate_gas(
            {"from": account.address, "to": to, "value": amount}
        )
        return {
            'from': account.address,
            "to": to,
            "value": amount,
-           "gasPrice": w3.eth.gasPrice,
+           "gasPrice": Web3.eth.gasPrice,
            "gas": gas_estimate,
-           "nonce": w3.eth.getTransactionCount(account.address),
-           "chainId": w3.eth.chain_id
+           "nonce": Web3.eth.getTransactionCount(account.address),
+           "chainId": Web3.eth.chain_id
        }
    #elif coin == BTC:
    #    return PrivateKey.prepare_transaction(account.address, [(to,amount,coin)])
-   if coin == BTCTEST:
+   else:
        return PrivateKeyTestnet.prepare_transaction(account.address, [(to,amount,BTC)])
 print(accBTCTEST.address)
 print(accETH.address)
-#tx_test = create_tx(BTCTEST, accBTCTEST,'2N83F3qNp5A13EtUxhUpHLzYGMZZqGkDwtS', 0.000000001)
-
+tx_test = create_tx(BTCTEST, accBTCTEST,'2N83F3qNp5A13EtUxhUpHLzYGMZZqGkDwtS', 0.000000001)
+print(tx_test)
 
 
 # Create a function called `send_tx` that calls `create_tx`, signs and sends the transaction.
