@@ -93,7 +93,7 @@ def send_tx(coin, account, recipent, amount):
     tx = create_tx(coin, account, recipent, amount)
     signed = account.sign_transaction(tx)
     if coin == ETH:
-        return w3.eth.sendRawTransaction(signed.rawTransaction)
+        return Web3.eth.sendRawTransaction(signed.rawTransaction)
     #elif coin == BTC:
        # return NetworkAPI.broadcast_tx(signed)
     if coin == BTCTEST:
