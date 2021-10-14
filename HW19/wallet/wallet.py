@@ -29,7 +29,7 @@ w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:8545"))
  
 # Create a function called `derive_wallets`
 def derive_wallets(mnemonicPhrase, coin, numdrive=3):
-    command = f'/Users/econ77/Workspaces/Blockchain-Tools/wallet/derive -g --mnemonic="{mnemonicPhrase}" --cols=path,address,privkey,pubkey --coin="{coin}" --numderive="{numdrive}" --format=json'
+    command = f'./derive -g --mnemonic="{mnemonicPhrase}" --cols=path,address,privkey,pubkey --coin="{coin}" --numderive="{numdrive}" --format=json'
     p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
     output, err = p.communicate()
     p_status = p.wait()
@@ -46,6 +46,9 @@ coins = {
 
 btctest_priv_key = coins[BTCTEST][0]['privkey']
 eth_priv_key = coins[ETH][0]['privkey']
+#print(eth_priv_key)
+#print(btctest_priv_key)
+
 
 ## Create a function called `priv_key_to_account` that converts privkey strings to account objects.
 def priv_key_to_account(coin, priv_key):
@@ -82,18 +85,15 @@ def create_tx(coin, account, to, amount):
    #    return PrivateKey.prepare_transaction(account.address, [(to,amount,coin)])
    else:
        return PrivateKeyTestnet.prepare_transaction(account.address, [(to,amount,BTC)])
-print(accBTCTEST.address)
-print(accETH.address)
-tx_test = create_tx(BTCTEST, accBTCTEST,'2N83F3qNp5A13EtUxhUpHLzYGMZZqGkDwtS', 0.000000001)
-print(tx_test)
-
+#print(accBTCTEST.address)
+#print(accETH.address)
 
 # Create a function called `send_tx` that calls `create_tx`, signs and sends the transaction.
 def send_tx(coin, account, recipent, amount):
     tx = create_tx(coin, account, recipent, amount)
     signed = account.sign_transaction(tx)
     if coin == ETH:
-        return Web3.eth.sendRawTransaction(signed.rawTransaction)
+        return w3.eth.sendRawTransaction(signed.rawTransaction)
     #elif coin == BTC:
        # return NetworkAPI.broadcast_tx(signed)
     if coin == BTCTEST:
@@ -102,5 +102,7 @@ def send_tx(coin, account, recipent, amount):
 #send_tx(ETH, accETH, '0xa87601B8dbA7C17081E67eC68E9aB749Fd7e1d07', 1)
 #send_tx(BTC, accBTC, '', 0.0000001)
 
-send_tx(BTCTEST, accBTCTEST, '2N83F3qNp5A13EtUxhUpHLzYGMZZqGkDwtS', 0.000000001)
-print(priv_key_to_account(BTCTEST, (coins[BTCTEST][0]['privkey'])).get_transactions()[0])
+send_tx(BTCTEST, accBTCTEST, '2N83F3qNp5A13EtUxhUpHLzYGMZZqGkDwtS', 0.0001)
+print(priv_key_to_account(BTCTEST, (coins[BTCTEST][0]['privkey'])).get_transactions())
+
+
