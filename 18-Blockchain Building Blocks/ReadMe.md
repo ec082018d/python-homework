@@ -3,7 +3,7 @@
 #### Make sure you have the following installed:
 
 ## GoEthereum:  
-⋅⋅* To install the Go Ethereum Tools, please follow the next steps.
+#### To install the Go Ethereum Tools, please follow the next steps.
 
 1. Open your browser and navigate to the Go Ethereum Tools download page at https://geth.ethereum.org/downloads/
 2. Scroll down to the "Stable Releases" section and proceed depending on your operating system.
